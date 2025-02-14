@@ -1,0 +1,29 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+
+        {
+            "name": "eval_depth",
+            "type": "python",
+            "request": "launch",
+            "program": "${workspaceFolder}/render_2dgs.py",
+            "pythonPath":"/home/zhaoyibin/anaconda3/envs/3DGSD/bin/python",
+            "console": "integratedTerminal",
+            "justMyCode": true,
+            "args": ["-s",
+             "data/2dgs_data/replica/office0",
+            "-m",
+            "results/3dgs_results/tum_360",
+            "--voxel_size",
+            "-1.0",
+            "--sdf_trunc",
+            "-1.0",
+            "--skip_train",
+            "--skip_test",
+            "--unbounded"]
+        }
+    ]
+}
