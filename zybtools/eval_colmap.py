@@ -65,7 +65,11 @@ def bin2depth(depth_map_path, output_path,gt_depth_path):
 
     # l1 = l1_loss(torch.tensor(depth_map).to(torch.float64), torch.tensor(gt_depth_map_scaled).to(torch.float64))
     l1mat = np.abs((depth_map - gt_depth_map_scaled))
-    l1mat = np.clip(l1mat,0,0.5)
+    if gt_depths[0].shape[1]==640:
+        clip_the = 0.5
+    else:
+        clip_the = 0.1
+    masked_l1mat = np.clip(masked_l1mat,0,clip_the)
     masked_l1mat = np.ma.masked_equal(l1mat, 0)
 
     l1 = np.ma.mean(masked_l1mat)

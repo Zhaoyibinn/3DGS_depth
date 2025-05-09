@@ -37,8 +37,8 @@ class CameraInfo(NamedTuple):
     image_name: str
     width: int
     height: int
-    depth: str
-    K: np.array
+    # depth: str
+    # K: np.array
 
 class SceneInfo(NamedTuple):
     point_cloud: BasicPointCloud
@@ -220,42 +220,42 @@ def readColmapSceneInfo(path, images, eval, llffhold=8):
         cam_intrinsics = read_intrinsics_text(cameras_intrinsic_file)
 
 
-    try:
-        cameras_extrinsic_file_gt = os.path.join(path, "sparse/gt", "images.bin")
-        cameras_intrinsic_file_gt = os.path.join(path, "sparse/gt", "cameras.bin")
-        cam_extrinsics_gt = read_extrinsics_binary(cameras_extrinsic_file_gt)
-        cam_intrinsics_gt = read_intrinsics_binary(cameras_intrinsic_file_gt)
-    except:
-        cameras_extrinsic_file_gt = os.path.join(path, "sparse/gt", "images.txt")
-        cameras_intrinsic_file_gt = os.path.join(path, "sparse/gt", "cameras.txt")
-        cam_extrinsics_gt = read_extrinsics_text(cameras_extrinsic_file_gt)
-        cam_intrinsics_gt = read_intrinsics_text(cameras_intrinsic_file_gt)
+    # try:
+    #     cameras_extrinsic_file_gt = os.path.join(path, "sparse/gt", "images.bin")
+    #     cameras_intrinsic_file_gt = os.path.join(path, "sparse/gt", "cameras.bin")
+    #     cam_extrinsics_gt = read_extrinsics_binary(cameras_extrinsic_file_gt)
+    #     cam_intrinsics_gt = read_intrinsics_binary(cameras_intrinsic_file_gt)
+    # except:
+    #     cameras_extrinsic_file_gt = os.path.join(path, "sparse/gt", "images.txt")
+    #     cameras_intrinsic_file_gt = os.path.join(path, "sparse/gt", "cameras.txt")
+    #     cam_extrinsics_gt = read_extrinsics_text(cameras_extrinsic_file_gt)
+    #     cam_intrinsics_gt = read_intrinsics_text(cameras_intrinsic_file_gt)
 
-    reading_dir = "images_colmap"
+    reading_dir = "images"
     depth_dir = "depth_colmap"
     try:
-        cam_infos_unsorted = readColmapCameras_depth(cam_extrinsics=cam_extrinsics, cam_intrinsics=cam_intrinsics, images_folder=os.path.join(path, reading_dir),depth_folder =os.path.join(path, depth_dir))
+        cam_infos_unsorted = readColmapCameras(cam_extrinsics=cam_extrinsics, cam_intrinsics=cam_intrinsics, images_folder=os.path.join(path, reading_dir))
         cam_infos = sorted(cam_infos_unsorted.copy(), key = lambda x : x.image_name)
         
-        cam_infos_unsorted_gt = readColmapCameras_depth(cam_extrinsics=cam_extrinsics_gt, cam_intrinsics=cam_intrinsics_gt, images_folder=os.path.join(path, reading_dir),depth_folder =os.path.join(path, depth_dir))
-        cam_infos_gt = sorted(cam_infos_unsorted_gt.copy(), key = lambda x : x.image_name)
+        # cam_infos_unsorted_gt = readColmapCameras_depth(cam_extrinsics=cam_extrinsics_gt, cam_intrinsics=cam_intrinsics_gt, images_folder=os.path.join(path, reading_dir),depth_folder =os.path.join(path, depth_dir))
+        # cam_infos_gt = sorted(cam_infos_unsorted_gt.copy(), key = lambda x : x.image_name)
 
 
     except:
         cam_infos_unsorted = readColmapCameras(cam_extrinsics=cam_extrinsics, cam_intrinsics=cam_intrinsics, images_folder=os.path.join(path, reading_dir))
         cam_infos = sorted(cam_infos_unsorted.copy(), key = lambda x : x.image_name)
 
-        cam_infos_unsorted_gt = readColmapCameras(cam_extrinsics=cam_extrinsics_gt, cam_intrinsics=cam_intrinsics_gt, images_folder=os.path.join(path, reading_dir))
-        cam_infos_gt = sorted(cam_infos_unsorted_gt.copy(), key = lambda x : x.image_name)
+        # cam_infos_unsorted_gt = readColmapCameras(cam_extrinsics=cam_extrinsics_gt, cam_intrinsics=cam_intrinsics_gt, images_folder=os.path.join(path, reading_dir))
+        # cam_infos_gt = sorted(cam_infos_unsorted_gt.copy(), key = lambda x : x.image_name)
 
     if eval:
         # train_cam_infos = [c for idx, c in enumerate(cam_infos) if idx % llffhold != 0]
         train_cam_infos = cam_infos
-        train_cam_infos_gt = cam_infos_gt
+        # train_cam_infos_gt = cam_infos_gt
         test_cam_infos = [c for idx, c in enumerate(cam_infos) if idx % llffhold == 0]
     else:
         train_cam_infos = cam_infos
-        train_cam_infos_gt = cam_infos_gt
+        # train_cam_infos_gt = cam_infos_gt
         test_cam_infos = [c for idx, c in enumerate(cam_infos) if idx % llffhold == 0]
 
     nerf_normalization = getNerfppNorm(train_cam_infos)
@@ -281,13 +281,13 @@ def readColmapSceneInfo(path, images, eval, llffhold=8):
                            nerf_normalization=nerf_normalization,
                            ply_path=ply_path)
     
-    scene_info_gt = SceneInfo(point_cloud=pcd,
-                           train_cameras=train_cam_infos_gt,
-                           test_cameras=test_cam_infos,
-                           nerf_normalization=nerf_normalization,
-                           ply_path=ply_path)
+    # scene_info_gt = SceneInfo(point_cloud=pcd,
+    #                        train_cameras=train_cam_infos_gt,
+    #                        test_cameras=test_cam_infos,
+    #                        nerf_normalization=nerf_normalization,
+    #                        ply_path=ply_path)
 
-    return scene_info,scene_info_gt
+    return scene_info
 
 
 

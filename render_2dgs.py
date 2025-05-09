@@ -120,7 +120,8 @@ if __name__ == "__main__":
         gaussExtractor.reconstruction(scene.getTrainCameras())
         # gaussExtractor.export_image(train_dir)
 
-        eval_depth.eval_depth(gaussExtractor,scene.getTrainCameras())
+        # eval_depth.eval_depth(gaussExtractor,scene)
+        # exit()
         # extract the mesh and save
         if args.unbounded:
             name = 'fuse_unbounded.ply'

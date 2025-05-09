@@ -14,16 +14,31 @@
             "console": "integratedTerminal",
             "justMyCode": true,
             "args": ["-s",
-             "data/2dgs_data/replica/office0",
+             "/home/zhaoyibin/3DRE/3DGS/FatesGS/DTU/diff/set_23_24_33/scan40",
             "-m",
-            "results/3dgs_results/tum_360",
+            "/home/zhaoyibin/3DRE/3DGS/3dgs/gaussian-splatting_origin/output/fatesgs/dtu40",
             "--voxel_size",
             "-1.0",
+            // "0.00016527222671034567",
             "--sdf_trunc",
             "-1.0",
+            "--depth_trunc",
+            "5.0",
             "--skip_train",
             "--skip_test",
-            "--unbounded"]
-        }
+            // "--unbounded"
+            ]
+        },
+        {
+            "name": "operate_ply",
+            "type": "python",
+            "request": "launch",
+            "program": "${workspaceFolder}/zybtools/operate_ply.py",
+            "pythonPath":"/home/zhaoyibin/anaconda3/envs/3DGSD/bin/python",
+            "console": "integratedTerminal",
+            "justMyCode": true,
+            "args": []
+        },
+        
     ]
 }
